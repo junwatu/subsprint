@@ -25,7 +25,7 @@ def run(args) -> Path:
     if not src.exists():
         raise SystemExit(f"srt not found: {src}")
     model_id = args.model or f"Helsinki-NLP/opus-mt-{args.src}-{args.tgt}"
-    print(f"[subgen] loading translation model: {model_id}", flush=True)
+    print(f"[subsprint] loading translation model: {model_id}", flush=True)
     import torch
     from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
     tok = AutoTokenizer.from_pretrained(model_id)
@@ -42,7 +42,7 @@ def run(args) -> Path:
             if c and c not in seen:
                 seen[c] = None
                 unique.append(c)
-    print(f"[subgen] translating {len(unique)} unique lines ...", flush=True)
+    print(f"[subsprint] translating {len(unique)} unique lines ...", flush=True)
 
     out: dict[str, str] = {}
     B = args.batch_size or 32
@@ -55,7 +55,7 @@ def run(args) -> Path:
             for s, t in zip(batch, tok.batch_decode(gen, skip_special_tokens=True)):
                 out[s] = t
             if i % 320 == 0:
-                print(f"[subgen] {i}/{len(unique)}", flush=True)
+                print(f"[subsprint] {i}/{len(unique)}", flush=True)
 
     def tr_line(p: str) -> str:
         dash, core = split_dash(p)
@@ -79,5 +79,5 @@ def run(args) -> Path:
 
     dst = Path(args.output) if args.output else src.with_suffix(f".{args.tgt}.srt")
     subs.save(str(dst))
-    print(f"[subgen] saved: {dst} ({len(subs)} events)", flush=True)
+    print(f"[subsprint] saved: {dst} ({len(subs)} events)", flush=True)
     return dst

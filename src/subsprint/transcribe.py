@@ -66,11 +66,11 @@ def run(args) -> Path:
     out.parent.mkdir(parents=True, exist_ok=True)
     fmt = (args.format or "srt").lower()
 
-    with tempfile.TemporaryDirectory(prefix="subgen-") as td:
+    with tempfile.TemporaryDirectory(prefix="subsprint-") as td:
         wav = Path(td) / "audio16k.wav"
-        print(f"[subgen] extracting audio: {video.name} -> 16kHz mono", flush=True)
+        print(f"[subsprint] extracting audio: {video.name} -> 16kHz mono", flush=True)
         extract_audio(video, wav)
-        print(f"[subgen] transcribing with {args.backend}/{args.model} "
+        print(f"[subsprint] transcribing with {args.backend}/{args.model} "
               f"(lang={args.language or 'auto'}, beam={args.beam_size}, vad={args.vad}) ...", flush=True)
         if args.backend == "mlx":
             segments = transcribe_mlx(wav, model=args.model, language=args.language)
@@ -85,15 +85,15 @@ def run(args) -> Path:
                 beam_size=args.beam_size, vad=args.vad,
                 device=args.device, compute_type=args.compute_type,
             )
-            print(f"[subgen] detected language: {det_lang} ({det_prob})", flush=True)
+            print(f"[subsprint] detected language: {det_lang} ({det_prob})", flush=True)
             subs = pysubs2.SSAFile()
             for s in segments:
                 subs.append(pysubs2.SSAEvent(start=int(s.start * 1000),
                                              end=int(s.end * 1000),
                                              text=(s.text or "").strip()))
-        print(f"[subgen] segments: {len(subs)}", flush=True)
+        print(f"[subsprint] segments: {len(subs)}", flush=True)
         if fmt == "vtt":
             out = out.with_suffix(".vtt")
         subs.save(str(out))
-    print(f"[subgen] saved: {out}", flush=True)
+    print(f"[subsprint] saved: {out}", flush=True)
     return out

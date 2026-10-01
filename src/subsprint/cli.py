@@ -1,11 +1,11 @@
-"""subgen CLI: `subgen transcribe` and `subgen translate`."""
+"""subsprint CLI: `subsprint transcribe` and `subsprint translate`."""
 from __future__ import annotations
 
 import argparse
 
 
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="subgen",
+    p = argparse.ArgumentParser(prog="subsprint",
                                 description="Offline subtitle generator for any video")
     sub = p.add_subparsers(dest="cmd", required=True)
 

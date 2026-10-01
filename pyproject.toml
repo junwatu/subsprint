@@ -1,5 +1,5 @@
 [project]
-name = "subgen"
+name = "subsprint"
 version = "0.1.0"
 description = "Offline CLI to generate subtitles for any video (faster-whisper + mlx-whisper, M-series fast defaults)"
 readme = "README.md"
@@ -14,7 +14,7 @@ mlx = ["mlx-whisper"]
 translate = ["transformers", "torch", "sacremoses"]
 
 [project.scripts]
-subgen = "subgen.cli:main"
+subsprint = "subsprint.cli:main"
 
 [build-system]
 requires = ["setuptools>=61"]
