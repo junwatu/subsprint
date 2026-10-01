@@ -1,0 +1,24 @@
+[project]
+name = "subgen"
+version = "0.1.0"
+description = "Offline CLI to generate subtitles for any video (faster-whisper + mlx-whisper, M-series fast defaults)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "faster-whisper>=1.2.1",
+  "pysubs2>=1.9.0",
+]
+
+[project.optional-dependencies]
+mlx = ["mlx-whisper"]
+translate = ["transformers", "torch", "sacremoses"]
+
+[project.scripts]
+subgen = "subgen.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
